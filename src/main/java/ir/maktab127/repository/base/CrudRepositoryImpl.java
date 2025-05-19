@@ -145,4 +145,10 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
     public void rollbackTransaction() {
         entityManager.getTransaction().rollback();
     }
+
+    @Override
+    public boolean isTransactionActive() {
+
+        return entityManager.getTransaction().isActive();
+    }
 }

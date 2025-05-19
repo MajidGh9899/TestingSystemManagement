@@ -3,6 +3,7 @@ package ir.maktab127.repository.user;
 import ir.maktab127.entity.Course;
 import ir.maktab127.entity.user.Student;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -18,6 +19,32 @@ public class StudentRepositoryImpl extends UserRepositoryImpl<Student> implement
 
     @Override
     public List<Student> findByCourse(Course course) {
-        return List.of();
+        if(course != null) {
+            try {
+                TypedQuery<Student> query = entityManager.createQuery(
+                        "SELECT s FROM Student s WHERE :course MEMBER OF s.courses", getDomainClass());
+                query.setParameter("course", course);
+                return query.getResultList();
+
+            }finally {
+                entityManager.close();
+            }
+        }
+        throw new RuntimeException("Course is null");
+
+
+    }
+    @Override
+    public boolean existsByStudentAndCourse(Student student, Course course) {
+        try {
+            TypedQuery<Long> query = entityManager.createQuery(
+                    "SELECT COUNT(s) FROM Student s WHERE s = :student AND :course MEMBER OF s.courses", Long.class);
+            query.setParameter("student", student);
+            query.setParameter("course", course);
+            return query.getSingleResult() > 0;
+
+        }finally {
+            entityManager.close();
+        }
     }
 }

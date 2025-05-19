@@ -35,4 +35,5 @@ public interface CrudRepository<T extends BaseEntity<ID>, ID extends Serializabl
 
     void rollbackTransaction();
 
+    boolean isTransactionActive();
 }

@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface StudentRepository extends UserRepository<Student> {
     List<Student> findByCourse(Course course);
+    boolean existsByStudentAndCourse(Student student, Course course);
 }
 
