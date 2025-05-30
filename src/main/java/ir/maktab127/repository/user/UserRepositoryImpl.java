@@ -33,8 +33,8 @@ public abstract class UserRepositoryImpl<T extends User> extends CrudRepositoryI
             }catch (Exception e){
                 return Optional.empty();
             }
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
     @Override
@@ -50,8 +50,8 @@ public abstract class UserRepositoryImpl<T extends User> extends CrudRepositoryI
             }   catch (Exception e){
                 return Optional.empty();
             }
-        }finally {
-             entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,8 +63,8 @@ public abstract class UserRepositoryImpl<T extends User> extends CrudRepositoryI
                     "SELECT u FROM User u WHERE u.status = :status", User.class);
             query.setParameter("status", status);
             return query.getResultList();
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
     @Override
@@ -84,8 +84,8 @@ public abstract class UserRepositoryImpl<T extends User> extends CrudRepositoryI
 
             cq.where(cb.or(predicates.toArray(new Predicate[0])));
             return entityManager.createQuery(cq).getResultList();
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -96,8 +96,8 @@ public abstract class UserRepositoryImpl<T extends User> extends CrudRepositoryI
                     "SELECT COUNT(u) FROM User u WHERE u.userName = :username", Long.class);
             query.setParameter("username", username);
             return query.getSingleResult() > 0;
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 

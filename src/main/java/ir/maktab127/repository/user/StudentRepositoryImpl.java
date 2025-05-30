@@ -26,8 +26,8 @@ public class StudentRepositoryImpl extends UserRepositoryImpl<Student> implement
                 query.setParameter("course", course);
                 return query.getResultList();
 
-            }finally {
-                entityManager.close();
+            }catch (RuntimeException e){
+                throw new RuntimeException(e);
             }
         }
         throw new RuntimeException("Course is null");
@@ -43,8 +43,8 @@ public class StudentRepositoryImpl extends UserRepositoryImpl<Student> implement
             query.setParameter("course", course);
             return query.getSingleResult() > 0;
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 }

@@ -34,8 +34,8 @@ public class ExamResultRepositoryImpl extends CrudRepositoryImpl<ExamResult,Long
             query.setParameter("exam",exam);
             return query.getResultList();
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -47,8 +47,8 @@ public class ExamResultRepositoryImpl extends CrudRepositoryImpl<ExamResult,Long
             query.setParameter("student",student);
             return query.getResultList();
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -66,8 +66,8 @@ public class ExamResultRepositoryImpl extends CrudRepositoryImpl<ExamResult,Long
                 return Optional.empty();
             }
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -82,8 +82,8 @@ public class ExamResultRepositoryImpl extends CrudRepositoryImpl<ExamResult,Long
             Predicate examPredicate = cb.equal(root.get("exam"), exam);
 
             return getExamResults(completed, cb, query, root, examPredicate);
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -98,8 +98,8 @@ public class ExamResultRepositoryImpl extends CrudRepositoryImpl<ExamResult,Long
             Predicate examPredicate = cb.equal(root.get("student"), student);
 
             return getExamResults(completed, cb, query, root, examPredicate);
-        } finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -125,8 +125,8 @@ public class ExamResultRepositoryImpl extends CrudRepositoryImpl<ExamResult,Long
             query.setParameter("exam", exam);
             query.setParameter("student", student);
             return query.getSingleResult() > 0;
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 }

@@ -33,8 +33,8 @@ public class CourseRepositoryImpl extends CrudRepositoryImpl<Course, Long> imple
             } catch (NoResultException e) {
                 return Optional.empty();
             }
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -46,8 +46,8 @@ public class CourseRepositoryImpl extends CrudRepositoryImpl<Course, Long> imple
             query.setParameter("teacher", teacher);
             return query.getResultList();
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -59,8 +59,8 @@ public class CourseRepositoryImpl extends CrudRepositoryImpl<Course, Long> imple
             query.setParameter("student", student);
             return query.getResultList();
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -71,8 +71,8 @@ public class CourseRepositoryImpl extends CrudRepositoryImpl<Course, Long> imple
                     "SELECT c FROM Course c WHERE LOWER(c.title) LIKE LOWER(:title)", Course.class);
             query.setParameter("title", "%" + title + "%");
             return query.getResultList();
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -83,8 +83,8 @@ public class CourseRepositoryImpl extends CrudRepositoryImpl<Course, Long> imple
                     "SELECT COUNT(c) FROM Course c WHERE c.code = :code", Long.class);
             query.setParameter("code", code);
             return query.getSingleResult() > 0;
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
     @Override
@@ -96,8 +96,8 @@ public class CourseRepositoryImpl extends CrudRepositoryImpl<Course, Long> imple
             query.setParameter("student", student);
             return query.getSingleResult() > 0;
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 }

@@ -24,8 +24,8 @@ public class AnswerRepositoryImpl extends CrudRepositoryImpl<Answer,Long> implem
                     "SELECT a FROM Answer a WHERE a.examResult = :examResult",getDomainClass());
             query.setParameter("examResult",examResult);
             return query.getResultList();
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
 
     }
@@ -43,25 +43,22 @@ public class AnswerRepositoryImpl extends CrudRepositoryImpl<Answer,Long> implem
             }catch (NoResultException e){
                 return Optional.empty();
             }
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public List<Answer> findByQuestionIn(List<Question> questions) {
-        if(questions.isEmpty()){
-            return List.of();
 
-        }
         try {
             TypedQuery<Answer> query = entityManager.createQuery(
                     "SELECT a FROM Answer a WHERE a.question IN :questions",getDomainClass());
             query.setParameter("questions",questions);
             return query.getResultList();
 
-        }finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -73,8 +70,8 @@ public class AnswerRepositoryImpl extends CrudRepositoryImpl<Answer,Long> implem
             query.setParameter("examResult",examResult);
             query.setParameter("question",question);
             return query.getSingleResult()>0;
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 

@@ -15,6 +15,18 @@ public class MultipleChoiceAnswer extends Answer {
     @Column(name = "selected_option_index")
     private Integer selectedOptionIndex;
 
+
+
+    public MultipleChoiceAnswer(Question question, Integer selectedOptionIndex) {
+        super(question);
+        this.selectedOptionIndex = selectedOptionIndex;
+    }
+
+    public MultipleChoiceAnswer() {
+        super();
+    }
+
+
     public boolean isCorrect() {
         if (!(getQuestion() instanceof MultipleChoiceQuestion) || selectedOptionIndex == null) {
             return false;

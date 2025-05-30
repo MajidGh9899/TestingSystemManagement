@@ -85,7 +85,7 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
         query.select(from);
 
         query.where(
-                cb.in(from.get(BaseEntity_.ID)).value(ids)
+                cb.in(from.get("id")).value(ids)
         );
 
         return entityManager.createQuery(query).getResultList();
@@ -119,7 +119,7 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity<ID>, ID extends Se
         Root<T> from = query.from(getDomainClass());
         query.select(cb.count(from));
         query.where(
-                cb.equal(from.get(BaseEntity_.ID), id)
+                cb.equal(from.get("id"), id)
         );
         return entityManager.createQuery(query).getSingleResult() > 0;
 

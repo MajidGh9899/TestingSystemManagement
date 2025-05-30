@@ -20,8 +20,8 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question,Long> im
                     "SELECT q FROM Question q WHERE q.course = :course", Question.class);
             query.setParameter("course", course);
             return query.getResultList();
-        } finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }}
 
     @Override
@@ -31,8 +31,8 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question,Long> im
                     "SELECT q FROM Question q WHERE LOWER(q.title) LIKE LOWER(:title)", Question.class);
             query.setParameter("title", "%" + title + "%");
             return query.getResultList();
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
         }
 
@@ -43,8 +43,8 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question,Long> im
                     "SELECT q FROM Question q WHERE LOWER(q.content) LIKE LOWER(:content)", Question.class);
             query.setParameter("content", "%" + content + "%");
             return query.getResultList();
-        } finally {
-            entityManager.close();
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -57,8 +57,8 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question,Long> im
             query.setParameter("course", course);
             query.setParameter("title", "%" + title + "%");
             return query.getResultList();
-        } finally {
-            entityManager.close();
+        }catch (RuntimeException e){
+            throw new RuntimeException(e);
         }
     }
 
